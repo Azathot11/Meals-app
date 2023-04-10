@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect,useContext } from "react";
 import { StyleSheet, View,ScrollView, Text, Image ,Button} from "react-native";
 
 import { MEALS } from "../data/dummy-data";
@@ -6,24 +6,37 @@ import MealInfoSection from "../components/MealInfoSection";
 import MealDetailTitle from "../components/MealDetailTitle";
 import List from "../components/List";
 import IconButton from "../components/IconButton";
+import {Context} from '../store/context/context'
 
 const MealsDetailScreen = ({ route, navigation }) => {
   const mealId = route.params.mealId;
 
   const mealDetail = MEALS.find((meal) => meal.id === mealId);
-  // console.log(mealDetail.title)
-  // console.log(JSON.stringify(mealDetail.imageUrl, null, 2));
+
+  const {ids,addFavorite,removeFavorite} = useContext(Context)
+
+  const check = ids.some((id)=> id === mealId)
+
 const headerButtonPress=()=>{
-  console.log('pressed')
+  const check = ids.some((id)=> id === mealId)
+  if(check){
+    return 
+  }
+  addFavorite(mealId)
+
+}
+
+const removeFavoriteHandler =()=>{
+  removeFavorite(mealId)
 }
   useLayoutEffect(() => {
     navigation.setOptions({
       title: mealDetail.title,
     headerRight:()=>{
-        return <IconButton icon='star' color='white' onPress={headerButtonPress}>In the header</IconButton>
+        return <IconButton icon={check ?'star':'star-outline'} color='white' size={100}onPress={check ?removeFavoriteHandler : headerButtonPress}>In the header</IconButton>
        }
     });
-  }, [navigation,headerButtonPress]);
+  }, [navigation,headerButtonPress,removeFavoriteHandler]);
   return (
     <ScrollView style={styles.rootContainer}>
       <View>

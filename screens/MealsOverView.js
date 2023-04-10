@@ -1,8 +1,9 @@
 import React,{useLayoutEffect} from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 
-import { MEALS ,CATEGORIES} from "../data/dummy-data";
+import { MEALS , CATEGORIES} from "../data/dummy-data";
 import MealItem from "../components/MealItem";
+
 
 
 
@@ -47,7 +48,7 @@ const MealsOverViewScreen = ({ route ,navigation}) => {
 
   return (
     <View style={styles.container}>
-      <FlatList
+     <FlatList
         data={filteredMeals}
         keyExtractor={(item) => item.id}
         renderItem={renderCategoryItem}
@@ -63,4 +64,5 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
+  
 });
